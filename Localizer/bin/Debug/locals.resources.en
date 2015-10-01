@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Localizer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">  <Form1buttonLoadTextLocalize>Localize</Form1buttonLoadTextLocalize>;
-  <Form1buttonLoadTextLocalize1>Localize</Form1buttonLoadTextLocalize1>;
-  <Form1namespGlobalizer>Globalizer</Form1namespGlobalizer>;
-  <Form1twError>Error trying to load resource file. Message </Form1twError>;
-  <Form1LocalizermyLocalizerYour>Your project has been localized successfully. Please verify that your project is loading correctly.</Form1LocalizermyLocalizerYour>;
-  <Form1LocalizermyLocalizerLocalization>Localization Cmplete</Form1LocalizermyLocalizerLocalization>;
-  <Form1buttonLoadTextLoad>Load Project File</Form1buttonLoadTextLoad>;
-</Localizer>
