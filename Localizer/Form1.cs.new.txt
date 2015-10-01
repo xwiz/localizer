@@ -1,0 +1,211 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+
+namespace Localizer
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private Dictionary<string, string> variables = new Dictionary<string, string>();
+        private Dictionary<string, string> duplicates = new Dictionary<string, string>();
+        private Dictionary<string, List<string>> files = new Dictionary<string, List<string>>();
+        private Dictionary<string, string[]> found = new Dictionary<string, string[]>();
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (buttonLoad.Text != Localizer.Form1buttonLoadTextLocalize)
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string directory = Path.GetDirectoryName(ofd.FileName);
+                    int last = 0;
+                    foreach (string s in Directory.GetFiles(directory, Localizer.Form1lastcs))
+                    {
+                        string tempName = Path.GetFileNameWithoutExtension(s);
+                        string allText = File.ReadAllText(s);
+                        string[] splits = allText.Split('"');
+                        found.Add(s, splits);
+                        for (int i = 1; i < splits.Length; i += 2)
+                        {
+                            try
+                            {
+                                string txt = splits[i];
+                                if (txt.Trim() == String.Empty)
+                                    continue;
+                                int fi = allText.IndexOf('"' + txt + '"', last, StringComparison.Ordinal);
+                                last = fi + txt.Length;
+                                int index = allText.LastIndexOf('=', fi);
+                                int sindex = allText.LastIndexOf(" ", index);
+                                StringBuilder sb = new StringBuilder();
+                                if (allText[fi - 1] == '\'')
+                                {
+                                    i -= 1;//account for fake trail
+                                    continue;//this is probably a character, not a string. get out...
+                                }
+                                for (int t = sindex;; t--)
+                                {
+                                    if (Char.IsLetter(allText[t]))
+                                    {
+                                        sb.Append(allText[t]);
+                                    }
+                                    else
+                                    {
+                                        if (allText[t] == '/' || allText[t] == '<')
+                                        {
+                                            sb.Clear(); //comment zone, let's get out
+                                            break;
+                                        }
+                                        if (allText[t] == '.')
+                                        {
+                                            continue;
+                                        }
+                                        if (sb.Length != 0)
+                                            break;
+                                    }
+                                }
+                                if (sb.Length == 0) continue;
+                                char[] array = sb.ToString().Trim().ToCharArray();
+                                Array.Reverse(array);
+                                string varname = tempName + new string(array) + txt.Split(' ')[0].CleanString();
+                                while (variables.ContainsKey(varname))
+                                {
+                                    varname += 1;
+                                }
+                                if (variables.ContainsValue(txt))
+                                {
+                                    if(!duplicates.ContainsKey(txt))
+                                        duplicates.Add(txt, variables.First(n => n.Value == txt).Key);
+                                }
+                                variables.Add(varname, txt);
+                                if (files.ContainsKey(s))
+                                {
+                                    files[s].Add(varname);
+                                }
+                                else
+                                {
+                                    files.Add(s, new List<string>(new[] {varname}));
+                                }
+                                progressBar1.Value = Convert.ToInt32((i + 0.0D)/splits.Length*100);
+                                dataGridView1.Rows.Add(new[] {varname, txt});
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+                            }
+                        }
+                    }
+                    buttonLoad.Text = Localizer.Form1buttonLoadTextLocalize;
+                }
+            }
+            else
+            {
+                string namesp = "Globalizer";
+                System.Xml.XmlDocument document = new System.Xml.XmlDocument();
+                System.Xml.XmlNamespaceManager ns = new System.Xml.XmlNamespaceManager(document.NameTable);
+                ns.AddNamespace("msbld", "http://schemas.microsoft.com/developer/msbuild/2003");
+                document.Load(ofd.FileName);
+                if (document.DocumentElement != null)
+                {
+                    System.Xml.XmlNode node = document.DocumentElement.SelectSingleNode("//msbld:RootNamespace", ns);
+                    if (node != null)
+                    {
+                        namesp = node.InnerText;
+                    }
+                }
+                foreach (var entry in files)
+                {
+                    string newText = File.ReadAllText(entry.Key);
+                    foreach (string dvar in entry.Value)
+                    {
+                        newText = newText.Replace('"' + variables[dvar] + '"', Localizer.Form1newTextLocalizer + dvar);
+                    }
+                    File.WriteAllText(entry.Key + Localizer.Form1newTextnewtxt, newText);
+                }
+                File.WriteAllText(Path.GetDirectoryName(ofd.FileName) + "\\Globalizer.cs", string.Format(@"using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+
+namespace {0}
+{{
+    /// <summary>
+    /// Provides a model for localizing application
+    /// </summary>
+    public class Localizer
+    {{
+
+        /// <summary>
+        /// Public constructor for Localizer with default language initialization
+        /// </summary>
+        /// <param name=""lang"">The optional language key to intialize</param>
+        public Zochis(string lang = "Localizer.Form1langenLocalizer.Form1lang
+"locals"">The Zochis settings object to serialize</param>
+        public static void Serialize(Localizer locals)
+        {{
+            try
+            {{
+                var xs = new XmlSerializer(typeof(Localizer));
+                using (TextWriter tw = new StreamWriter("Localizer.Form1twlocalsresourcesLocalizer.Form1twLocalizer.Form1twlocalsresourcesLocalizer.Form1twLanguageLocalizer.Form1twlocalsresources"+Language, FileMode.Open))
+            {{
+                return xs.Deserialize(fs) as Localizer;
+            }}
+        }}
+{1}
+    }}
+}}",namesp, ExpandVariables()));
+                string allText = File.ReadAllText(ofd.FileName);
+                File.WriteAllText(ofd.FileName, allText.Insert(allText.LastIndexOf("</Compile>"), @"    <Compile Include=""Localizer.cs"">
+      <SubType>Code</SubType>
+    </Compile>"));
+            }
+            MessageBox.Show(
+                "Your project has been localized successfully. Please include Globalizer.cs in your project folder to use resource file.",
+                "Localization Cmplete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        internal string ExpandVariables()
+        {
+            string output = "";
+            foreach (var v in variables)
+            {
+                output += string.Format(@Localizer.Form1outputLocalizer.Form1string{1}Localizer.Form1string;, v.Key, v.Value) + Environment.NewLine;
+            }
+            return output;
+        }
+    }
+
+    internal static class Utils
+    {
+        private static readonly bool[] BadCharValues;
+
+        static Utils()
+        {
+            BadCharValues = new bool[char.MaxValue + 1];
+            foreach (char c in @Localizer.Form1BadCharValues)
+                BadCharValues[c] = true;
+        }
+
+        public static string CleanString(this string str)
+        {
+            var result = new StringBuilder(str.Length);
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!BadCharValues[str[i]])
+                    result.Append(str[i]);
+            }
+            return result.ToString();
+        }
+    }
+}

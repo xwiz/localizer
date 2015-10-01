@@ -1,0 +1,132 @@
+namespace Localizer
+{
+    partial class Form1
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.buttonLoad = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.VariableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VariableText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.labelStatus = new System.Windows.Forms.Label();
+            this.ofd = new System.Windows.Forms.OpenFileDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // buttonLoad
+            // 
+            this.buttonLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonLoad.Location = new System.Drawing.Point(377, 24);
+            this.buttonLoad.Name = Localizer.Form1.DesignerthisbuttonLoadNamebuttonLoad;
+            this.buttonLoad.Size = new System.Drawing.Size(86, 72);
+            this.buttonLoad.TabIndex = 0;
+            this.buttonLoad.Text = Localizer.Form1.DesignerthisbuttonLoadTextLoad;
+            this.buttonLoad.UseVisualStyleBackColor = true;
+            this.buttonLoad.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.VariableName,
+            this.VariableText});
+            this.dataGridView1.Location = new System.Drawing.Point(12, 102);
+            this.dataGridView1.Name = Localizer.Form1.DesignerNamedataGridView1;
+            this.dataGridView1.Size = new System.Drawing.Size(451, 209);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // VariableName
+            // 
+            this.VariableName.HeaderText = Localizer.Form1.DesignerthisVariableNameHeaderTextVariable;
+            this.VariableName.MinimumWidth = 100;
+            this.VariableName.Name = Localizer.Form1.DesignerthisVariableNameNameVariableName;
+            // 
+            // VariableText
+            // 
+            this.VariableText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.VariableText.HeaderText = Localizer.Form1.DesignerthisVariableTextHeaderTextVariableText;
+            this.VariableText.Name = Localizer.Form1.DesignerthisVariableTextHeaderTextVariableText;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(12, 68);
+            this.progressBar1.Name = Localizer.Form1.DesignerNameprogressBar1;
+            this.progressBar1.Size = new System.Drawing.Size(359, 28);
+            this.progressBar1.TabIndex = 2;
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStatus.Location = new System.Drawing.Point(12, 24);
+            this.labelStatus.Name = Localizer.Form1.DesignerthislabelStatusNamelabelStatus;
+            this.labelStatus.Size = new System.Drawing.Size(359, 41);
+            this.labelStatus.TabIndex = 3;
+            // 
+            // ofd
+            // 
+            this.ofd.FileName = Localizer.Form1.DesignerthisofdFileNameProjectcsproj;
+            this.ofd.Filter = Localizer.Form1.DesignerthisofdFilter'CSharp;
+            this.ofd.RestoreDirectory = true;
+            this.ofd.Title = Localizer.Form1.DesignerthisofdTitleSelect;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(475, 323);
+            this.Controls.Add(this.labelStatus);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.buttonLoad);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject(Localizer.Form1.DesignerthisIconthisIcon)));
+            this.Name = Localizer.Form1.DesignerthisNameForm1;
+            this.Text = Localizer.Form1.DesignerthisTextGlobalizer;
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button buttonLoad;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VariableName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VariableText;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.OpenFileDialog ofd;
+    }
+}
+
